@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* transition: background-color 2000ms ease-in; */
+}
+
+/*
+.MuiToolbar-root, .options-bar {
+  transition: background-color 2000ms ease-in;
+}
+*/
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@scroll-timeline photo-fade {
+  source: auto;
+  orientation: block;
+  scroll-offsets: 0% 100%;
+}
+
+.photo-fade-root {
+  animation-name: photoFade;
+  animation-duration: 2s;
+  animation-timeline: photo-fade;
+  animation-fill-mode: both;
+  animation-timing-function: ease-out;
+}
+
+@keyframes photoFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

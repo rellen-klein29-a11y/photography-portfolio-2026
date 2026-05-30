@@ -1,0 +1,909 @@
+import config from "../app.config.js";
+
+/*
+	Photos.
+
+	name: photo album name
+	photoFolders: A list of folder names for the image sources. If more than 1 is provided a stepper will be provided
+	  with the image. (see the transitionOptions prop)
+	tags: Tags for the image.
+	aspect: Image aspect.
+	flickr: URL to flickr version of image.
+	instagram: URL to instagram version of image.
+	description: A text description of the image.
+	altText: alt text for the image.
+	transitionOptions: {
+	  	type: 'stepper' (default) | 'toggle',
+		toggleLabel: label for toggle (if type is toggle)
+		imageStart (default 0), image index to start at
+		slowTransition: (default false)
+	}
+
+	Generated parameters:
+	id: ID for the image, the name of the first variant is used.
+	album: array of arrays of the sized images.
+*/
+
+let albums = [
+  {
+    name: "banff-mountain-trees",
+    photoFolders: ["blurry 3"],
+    tags: ["album", "banff"],
+    aspect: "1x1",
+    altText: "View of trees from Banff mountain, accessible by gondola",
+    description: ["view of trees from Banff mountain, accessible by gondola"],
+  },
+  {
+    name: "last-chance-saloon",
+    photoFolders: ["last chance saloon"],
+    tags: ["album", "last-chance-saloon"],
+    aspect: "6x4",
+    altText: "Last Chance Saloon",
+    description: [
+      "Last Chance Saloon was one of the first stops we went on on the trip, and it was a great foundation to understand culture in rural Alberta. Last Chance Saloon has been around for over 100 years, and they are a prime example of one of the main problems with tourist towns such as Drumheller. Since the population there is so low, it is often over doubled during tourist season, making it easy to run a business then but hard in the off season. According to the owners, the only way the were able to stay afloat during covid was because of some dedicated regulars that didn’t want to see the saloon go.",
+    ],
+  },
+  {
+    name: "henry-last-chance-saloon",
+    photoFolders: ["henry last chance saloon.TIF"],
+    tags: ["album", "last-chance-saloon"],
+    aspect: "6x4",
+    altText: "Henry — Last Chance Saloon",
+    description: [""],
+  },
+  {
+    name: "blackfoot-crossing",
+    photoFolders: ["blackfoot crossing"],
+    tags: ["album", "blackfoot-crossing"],
+    aspect: "6x4",
+    altText: "Blackfoot Crossing",
+    description: [
+      "Blackfoot crossing was traditionally a hunting and gathering area for the Siksika people. Before that, the area is believed to have been inhabited by people from the Upper Mississippi Valley in what is now the United States. We know this because archeologists have found the remains of an ancient earthlodge village, a group of semi-underground structures covered partially with earth. This is unique to the area as it is the only example of a permanent settlement located on the plains, since it was mainly used for nomadic hunting. Archeological evidence points to it being founded around 1740.",
+    ],
+  },
+  {
+    name: "blackfoot-crossing-bnw",
+    photoFolders: ["blackfoot crossing bnw.CR2"],
+    tags: ["album", "blackfoot-crossing"],
+    aspect: "6x4",
+    altText: "Blackfoot Crossing (B&W)",
+    description: ["View of the inside of Blackfoot Crossing."],
+  },
+  {
+    name: "atlas-coal-mine-2",
+    photoFolders: ["atlas coal mine 2"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Atlas Coal Mine",
+    description: [
+      "This image is of Atlas Coal Mine’s tipple. It is the last remaining tipple in Canada. A tipple is a structure used at a mine to load the coal in minecarts.",
+    ],
+  },
+  {
+    name: "atlas-coal-mine-split",
+    photoFolders: ["atlas coal mine split.TIF"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Atlas Coal Mine (split)",
+    description: [
+      "Since the camera that I'm shooting on is extremely old (from the soviet union), two images collided in this shot: one of the badlands and one of Atlas Coal mine.",
+    ],
+  },
+  {
+    name: "atlas-coal-mine",
+    photoFolders: ["atlas coal mine.TIF"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Atlas Coal Mine",
+    description: [
+      "This is a further away view of the tipple from a different angle than the first interactive image.",
+    ],
+  },
+  {
+    name: "atlas-coal-mine-downtown-drum",
+    photoFolders: ["atlas coal mine/downtown drum.TIF"],
+    tags: ["album", "atlas-coal-mine", "downtown-drumheller"],
+    aspect: "6x4",
+    altText: "Atlas Coal Mine / Downtown Drumheller",
+    description: [
+      "Again, as described above, this is another example of a split between two shots, this time between Atlas Coal Mine and downtown Drumheller. Because of the way the images line up, it almost looks like the same building is in both images.",
+    ],
+  },
+  {
+    name: "atlas-h-way",
+    photoFolders: ["atlas h-way.tif"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Atlas (highway)",
+    description: ["A view of the highway from Atlas Coal Mine."],
+  },
+  {
+    name: "atlas-truck",
+    photoFolders: ["atlas truck.CR2"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Atlas truck",
+    description: [
+      "A truck from when the coal mine was still in service back in the 1900s.",
+    ],
+  },
+  {
+    name: "wildfire-coal",
+    photoFolders: ["wildfire coal.CR2"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Wildfire coal",
+    description: [
+      "During our tour of the tipple, our guide told us about how they would paint the coal orange to make it seem more powerful than other coal. Once, a woman bought wildfire coal, and it wasn't orange. She told the deliverer it wasn't good enough and to bring her the real wildfire coal. He said no, and after she used it, she went back to complain about how awful it was. The deliverer gave up and told the woman to give all the black coal back so he could give her the real stuff. He took it back to the mine and painted it orange, then went back and gave it to her. She later expressed her satisfaction and told him how much better it was than the regular coal he had given her before.",
+    ],
+  },
+  {
+    name: "downtown-drumheller",
+    photoFolders: ["downtown drum.TIF"],
+    tags: ["album", "downtown-drumheller"],
+    aspect: "6x4",
+    altText: "Downtown Drumheller",
+    description: ["A shot of Downtown Drumheller."],
+  },
+  {
+    name: "drum-big-dino",
+    photoFolders: ["drum big dino.CR2"],
+    tags: ["album", "downtown-drumheller"],
+    aspect: "6x4",
+    altText: "Drumheller Big Dino",
+    description: [
+      "This is Drumheller's own \"largest dinosaur in the world\".",
+    ],
+  },
+  {
+    name: "drum-black-dino",
+    photoFolders: ["drum black dino.CR2"],
+    tags: ["album", "downtown-drumheller"],
+    aspect: "6x4",
+    altText: "Drumheller Black Dino",
+    description: [
+      "The entire town of Drumheller is centred around dinosaurs. This is a mural of sorts I found on one of the buildings on the main street.",
+    ],
+  },
+  {
+    name: "lake-louise-building",
+    photoFolders: ["lake louise building.TIF"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise Building",
+    description: ["A view of the Fairmont Hotel near Lake Louise."],
+  },
+  {
+    name: "lake-louise-with-people-2",
+    photoFolders: ["lake louise w: people 2.TIF"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (with people)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-with-people-3",
+    photoFolders: ["lake louise w: people 3.TIF"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (with people)",
+    description: [
+      "The older image of Lake Louise was taken around 1880 by Alberta photography duo Boorne and May.\n\nHistory:\nLake Louise was well known to the Indigenous people in the area before the Canadian Pacific Railway survey crews came in the late 1880s.\n\nThe first non-Indigenous person to visit the area was Thomas Edmonds Wilson, led by Indigenous tour guide Edwin hunter in 1882.\nWilson (although having no authority to do so) named the lake \"Emerald Lake\" after it's color. It was later renamed to Lake Louise after Princess Louise Caroline Alberta (the province was named after her as well).\n\nIn the summer when the ice and snow clears, the water turns into a turquoise color that comes from rock flour carried into the lake by the melting of nearby glaciers.\n\nChateau lake Louise (it's earliest version pictured above) is located on lake louise's eastern shore.\n\nContribution to sustainability:\nThe chateau was the first luxury hotel in Canada to receive a 5 green key rating from the Hotel Association of Canada's Green Key Eco-Rating Program. They were first awarded this in 2000 and have maintained it every year since then.\n\nFor over 20 years, the hotel has supported the UN's sustainable development goals and has taken measures to ensure that its practices align with them:\n- No Net-Negative Environmental Impact: The chateau works with Parks Canada to ensure that it has no negative impacts on the surrounding landscape.\n- 52% of the hotel's energy comes from renewable sources.\n- They purify water from Lake Louise using an on site water treatment plant.\n- Leftover soap and hygiene products are donated to Clean the World.",
+    ],
+  },
+  {
+    name: "lake-louise-with-people",
+    photoFolders: ["lake louise w: people.TIF"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (with people)",
+    description: [""],
+  },
+  {
+    name: "lake-louise",
+    photoFolders: ["lake louise.TIF"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-best",
+    photoFolders: ["lake louise wide (best).CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide",
+    photoFolders: ["lake louise wide.CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-2",
+    photoFolders: ["lake louise wide 2.CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-3",
+    photoFolders: ["lake louise wide 3.CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-4",
+    photoFolders: ["lake louise wide 4.CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-5",
+    photoFolders: ["lake louise wide 5.CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-6",
+    photoFolders: ["lake louise wide 6.CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-7",
+    photoFolders: ["lake louise wide 7.CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-8",
+    photoFolders: ["lake louise wide 8.CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-9",
+    photoFolders: ["lake louise wide 9.CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-10",
+    photoFolders: ["lake louise wide 10.CR2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "other-sunset-hot-springs",
+    photoFolders: ["sunset hot springs"],
+    tags: ["other", "banff-hot-springs"],
+    aspect: "6x4",
+    altText: "Sunset Hot Springs",
+    description: [
+      "This image was originally supposed to have its own section, but I was only able to take this photo of the hot springs for privacy reasons.",
+    ],
+  },
+
+  // ======== Interactive (one per stop) ========
+  {
+    name: "interactive-last-chance-saloon",
+    photoFolders: [
+      "interactive_last_chance_saloon_new",
+      "interactive_last_chance_saloon_old",
+    ],
+    tags: ["interactive", "last-chance-saloon"],
+    aspect: "6x4",
+    transitionOptions: {
+      type: "toggle",
+      toggleLabel: "Click the switch to compare then vs. now",
+      imageStart: 0,
+    },
+    altText: "Last Chance Saloon — Then and Now",
+    description: [
+      "Low quality screenshot",
+      "\n\nOld image\n\n",
+      "Caption\n\n",
+      "photo taken by jennamnemonic for atlas obscura, November 9, 2019\n\n",
+      "Things changed:\nFrom the images, not much has changed. It looks like theyve changed their open sign to electronic and added accessible parking, but thats it.\n\n",
+      "Research:\n",
+    ],
+  },
+  {
+    name: "interactive-blackfoot-crossing",
+    photoFolders: [
+      "interactive_blackfoot_crossing_new",
+      "interactive_blackfoot_crossing_old",
+    ],
+    tags: ["interactive", "blackfoot-crossing"],
+    aspect: "6x4",
+    transitionOptions: {
+      type: "toggle",
+      toggleLabel: "Click the switch to compare then vs. now",
+      imageStart: 0,
+    },
+    altText: "Blackfoot Crossing — Then and Now",
+    description: [
+      "Low quality screenshot",
+      "\n\nOld image\n\n",
+      '"Blackfoot camp at Blackfoot Crossing, Alberta.", 1927-09, (CU184665) by Oliver, W. J.. Courtesy of Glenbow Library and Archives, Glenbow Archives Collection, Libraries and Cultural Resources Digital Collections, University of Calgary.\n\n',
+      "Context of old image:\nThe image was taken in September of 1927.\n\n",
+      "During that month:\n",
+      "- The first fully electronic television system was demonstrated on the 7th.\n",
+      "- The Colubia Phonographic Broadcasting System (now known as CBS) officially went on air. (18th)\n",
+      "- The Toronto st. patricks officially changed their name to the Toronto Maple Leafs (27th)\n",
+      "- Babe Ruth set a record by hitting his 60th home run of the season for the New York Yankees (30th)\n\n",
+      "The image was taken by William John Oliver (1887-1954).\n",
+      "He began his photography carer in 1910, working for the Morning Albertan.\n",
+      "He went on to become one of Canada’s most well known adventure, nature, and documentary photographer.\n\n",
+      "It was taken during the unveiling of the Treaty 7 monument, on the 50th anniversary of the singing of the Treaty.\n\n",
+      "History of Blackfoot Crossing:\n",
+      "Blackfoot crossing was traditionally a hunting and gathering area for the Siksika people. Before that, the area is believed to have been inhabited by people from the Upper Mississippi Valley in what is now the United States. We know this because archeologists have found the remains of an ancient earthlodge village (a group of semi-underground structures covered partially with earth). This is unique to the area as it is the only example of a permanent settlement located on the plains, since it was mainly used for nomadic hunting. Archeological evidence points to it being founded around 1740.\n\n",
+      "At some point after this, the land was inhabited by the Siksika people from the Blackfoot Confederacy and was mainly used, as mentioned above, for nomadic hunting and gathering.\n\n",
+      "In 1887, the crossing became an important place in Canadian history when Treaty 7 was signed here (the 50th anniversary of this signing is depicted in the image above).\n\n",
+      "In 1925, the Crossing was declared a National Historic Site of Canada by the Historic Sites and Monuments Board of Canada.\n\n",
+      "In 1977, Prince Charles visited the site to help commemorate the 100th anniversary of the signing of the treaty (50 years after the date that the second photo was taken). This event hit off so well that the Sikisika council decided to build a historical tourist attraction on the site, and they began planning and fundraising.\n\n",
+      "In 2003, the ground was broken, and construction began. It officially opened in 2007, and included an interpretive centre; monuments to chiefs of the Blackfoot people and Treaty 7; teepee remains; hiking trails; and the earthlodge village site.\n\n",
+      "Contribution to cultural sustainability:\n",
+      "The park has education programs related to the Blackfoot language, which helps to sustain Siksika culture. They also have guided tours led by Sikisika Elders where they tell traditional stories, teach visitors about botany, the plants in the valley, and the history of the area.\n\n",
+      "During Challenge Week, we could only spend around 30 minutes there, so we didn’t get to much of the stuff about Botany and plants, though we did learn about some traditional Siksika stories and about the history of Blackfoot Crossing. This is intergenerational knowledge transfer happening in real time.\n\n",
+      "The site also includes a Tipi village, where visitors can stay for around $75-$100 per night, and engage in traditional Siksika activities such as smudging and powwow dancing.\n\n",
+      "The vast majority of Canadians (though they may know a bit about Indigenous history) don’t know it from an Indigenous perspective. Blackfoot Crossing gives the Siksika people an opportunity to share their story; almost all of Blackfoot Crossing’s employees are Siksika, or descended from the Siksika.\n\n",
+      "As well, every architectural design in the building is intentional. Everything is related to Blackfoot iconography. Designed by Architect Ron Goodfellow, some notable examples include the Vision Quest theatre, designed to mimic the Siksika’s stories and mythology about the moon and stars, a multicolored wall in the library designed to mimic the dresses worn by traditional Jingle Dress Dancers, and glass supported by a bow-shaped baluster, designed to mimic the bows the Siksika used to hunt buffalo and other game.\n",
+    ],
+  },
+  {
+    name: "interactive-atlas-coal-mine",
+    photoFolders: [
+      "interactive_atlas_coal_mine_new",
+      "interactive_atlas_coal_mine_old",
+    ],
+    tags: ["interactive", "atlas-coal-mine"],
+    aspect: "6x4",
+    transitionOptions: {
+      type: "toggle",
+      toggleLabel: "Click the switch to compare then vs. now",
+      imageStart: 0,
+    },
+    altText: "Atlas Coal Mine — Then and Now",
+    description: [
+      "Low quality screenshot\n\nOld image\n\nCaption\n\n",
+      "Atlas Coal mine (environmental sustainability)\n\n",
+      "This image is of Atlas Coal Mine’s tipple. It is the last remaining tipple in Canada. A tipple is a structure used at a mine to load the coal in minecarts.\n\n",
+      "The Atlas Coal Mine National Historic Site is an inactive coal mine near drumheller, Alberta that operated from 1936-1979. It is considered to be one of Canada’s most complete coal mines to this day, and is home to the last remaining tipple in Canada, and the largest tipple in all of North America. It became a national Hisoric Site of Canada in 2002.\n\n",
+      "History:\nThe coal from the Drumheller mining industry was mostly used in the town for heating, cooking, and generating electricity. It was also used to power the trains that ran along the Canadian National and Canadian Pacific railway that passed through the prairies. The era lasted up until 1984, when the Atlas number 2 and 3 mines were closed. The Atlas number 3 mines were restored and form the basis of the National Historic Site.\n\n",
+      "The mine has the last wooden tipple in all of Canada. Built in 1937, the tipple sorts and loads coal into minecarts. While touring the tipple, we learned about the harsh conditions workers had to face while working at the mine. Children had to stand on a wobbly platform next to the coal loader and sift through the coal themselves. It was extremely easy to lose a hand, and 13 people died while the mine was active. The Atlas coal mine includes the 7 story tall tipple, old mining equipment, a working battery powered locomotive, and several buildings including a wash house, supply house, lamp house, and mine offices.\n\n",
+      "The Atlas Coal mine turned into a tourist attraction in 2009, and since has conducted tours of their 210 foot underground mining tunnel, and their recently restored blacksmith shop.\n\n",
+      "Contribution to sustainability:\nThey help to maintain Atlas coal mine, to ensure that it can continue to exist and help educate future generations about this period in time. Since Atlas Coal mine is locally operated and doesn’t receive any support from any levels of government, it makes it a sustainable business model, where it sustains itself through community and tourist engagement rather than industrial activity like in the past. They also help to educate about the consequences of research dependency. By doing this, it help to create conversations about moving away from fossil fuels and moving towards more sustainable energy.\n",
+    ],
+  },
+  {
+    name: "interactive-downtown-drumheller",
+    photoFolders: [
+      "interactive_downtown_drumheller_new",
+      "interactive_downtown_drumheller_old",
+    ],
+    tags: ["interactive", "downtown-drumheller"],
+    aspect: "6x4",
+    transitionOptions: {
+      type: "toggle",
+      toggleLabel: "Click the switch to compare then vs. now",
+      imageStart: 0,
+    },
+    altText: "Downtown Drumheller — Then and Now",
+    description: ["Low quality screenshot\n\nOld image\n\nCaption\n\n"],
+  },
+  {
+    name: "interactive-lake-louise",
+    photoFolders: [
+      "interactive_lake_louise_new",
+      "interactive_lake_louise_old",
+    ],
+    tags: ["interactive", "lake-louise"],
+    aspect: "6x4",
+    transitionOptions: {
+      type: "toggle",
+      toggleLabel: "Click the switch to compare then vs. now",
+      imageStart: 0,
+    },
+    altText: "Lake Louise — Then and Now",
+    description: [
+      "Low quality screenshot\n\nOld image\n\n",
+      "Lake Louise (environmental sustainability)\n\n",
+      "The older image of Lake Louise was taken around 1880 by Alberta photography duo Boorne and May.\n\n",
+      "History:\nLake Louise was well known to the Indigenous people in the area before the Canadian Pacific Railway survey crews came in the late 1880s.\n\n",
+      "The first non-Indigenous person to visit the area was Thomas Edmonds Wilson, led by Indigenous tour guide Edwin hunter in 1882.\n",
+      "Wilson (although having no authority to do so) named the lake “Emerald Lake” after it’s color. It was later renamed to Lake Louise after Princess Louise Caroline Alberta (the province was named after her as well).\n\n",
+      "In the summer when the ice and snow clears, the water turns into a turquoise color that comes from rock flour carried into the lake by the melting of nearby glaciers.\n\n",
+      "Chateau lake Louise (it’s earliest version pictured above) is located on lake louise’s eastern shore.\n\n",
+      "Contribution to sustainability:\nThe chateau was the first luxury hotel in Canada to receive a 5 green key rating from the Hotel Association of Canada's Green Key Eco-Rating Program. They were first awarded this in 2000 and have maintained it every year since then.\n\n",
+      "For over 20 years, the hotel has supported the UN’s sustainable development goals and has taken measures to ensure that its practices align with them:\n",
+      "- No Net-Negative Environmental Impact: The chateau works with Parks Canada to ensure that it has no negative impacts on the surrounding landscape.\n",
+      "- 52% of the hotel's energy comes from renewable sources.\n",
+      "- They purify water from Lake Louise using an on site water treatment plant.\n",
+      "- Leftover soap and hygiene products are donated to Clean the World.\n",
+    ],
+  },
+  {
+    name: "interactive-banff-hot-springs",
+    photoFolders: [
+      "interactive_banff_hot_springs_new",
+      "interactive_banff_hot_springs_old",
+    ],
+    tags: ["interactive", "banff-hot-springs"],
+    aspect: "6x4",
+    transitionOptions: {
+      type: "toggle",
+      toggleLabel: "Click the switch to compare then vs. now",
+      imageStart: 0,
+    },
+    altText: "Banff Hot Springs — Then and Now",
+    description: ["Low quality screenshot\n\nOld image\n\nCaption\n\n"],
+  },
+
+  // ======== Film shots ========
+  {
+    name: "film-last-chance-saloon",
+    photoFolders: ["film_last_chance_saloon"],
+    tags: ["film", "last-chance-saloon"],
+    aspect: "6x4",
+    altText: "Last Chance Saloon (film)",
+    description: ["Film shot."],
+  },
+  {
+    name: "film-blackfoot-crossing",
+    photoFolders: ["film-blackfoot-crossing"],
+    tags: ["film", "blackfoot-crossing"],
+    aspect: "6x4",
+    altText: "Blackfoot Crossing (film)",
+    description: ["Film shot."],
+  },
+  {
+    name: "film-atlas-coal-mine-2",
+    photoFolders: ["film_atlas_coal_mine_2"],
+    tags: ["film", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Atlas Coal Mine (film)",
+    description: ["Film shot."],
+  },
+  {
+    name: "film-atlas-coal-mine-downtown-drum",
+    photoFolders: ["film_atlas_coal_mine_downtown_drum"],
+    tags: ["film", "atlas-coal-mine", "downtown-drumheller"],
+    aspect: "6x4",
+    altText: "Atlas Coal Mine / Downtown Drumheller (film)",
+    description: ["Film shot."],
+  },
+  {
+    name: "film-lake-louise-building",
+    photoFolders: ["film_lake_louise_building"],
+    tags: ["film", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (film)",
+    description: ["Film shot."],
+  },
+  {
+    name: "film-banff-hot-springs-sunset",
+    photoFolders: ["film_banff_hot_springs_sunset"],
+    tags: ["film", "banff-hot-springs"],
+    aspect: "6x4",
+    altText: "Banff Hot Springs (film)",
+    description: ["Film shot."],
+  },
+  {
+    name: "tif-atlas-h-way",
+    photoFolders: ["atlas h-way"],
+    tags: ["film", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "atlas h-way.tif",
+    description: ["atlas h-way.tif"],
+  },
+  {
+    name: "tif-badlands-flatlands-wideshot",
+    photoFolders: ["badlands flatlands wideshot"],
+    tags: ["film", "downtown-drumheller"],
+    aspect: "6x4",
+    altText: "badlands flatlands wideshot.tif",
+    description: ["badlands flatlands wideshot.tif"],
+  },
+  {
+    name: "tif-blurry-1",
+    photoFolders: ["blurry 1"],
+    tags: ["film", "banff"],
+    aspect: "1x1",
+    altText: "blurry 1.TIF",
+    description: ["blurry 1.TIF"],
+  },
+  {
+    name: "tif-blurry-2",
+    photoFolders: ["blurry 2"],
+    tags: ["film", "banff"],
+    aspect: "1x1",
+    altText: "blurry 2.TIF",
+    description: ["blurry 2.TIF"],
+  },
+  {
+    name: "tif-blurry-4",
+    photoFolders: ["blurry 4"],
+    tags: ["film", "banff"],
+    aspect: "1x1",
+    altText: "blurry 4.TIF",
+    description: ["blurry 4.TIF"],
+  },
+  {
+    name: "tif-blurry-5",
+    photoFolders: ["blurry 5"],
+    tags: ["film", "banff"],
+    aspect: "1x1",
+    altText: "blurry 5.TIF",
+    description: ["blurry 5.TIF"],
+  },
+  {
+    name: "tif-blurry-6",
+    photoFolders: ["blurry 6"],
+    tags: ["film", "banff"],
+    aspect: "1x1",
+    altText: "blurry 6.TIF",
+    description: ["blurry 6.TIF"],
+  },
+  {
+    name: "tif-roscoe-niche",
+    photoFolders: ["roscoe niche"],
+    tags: ["film", "other"],
+    aspect: "8x10",
+    altText: "roscoe niche.tif",
+    description: ["roscoe niche.tif"],
+  },
+
+  // ======== Album photos (additional named files) ========
+  {
+    name: "henry-last-chance-saloon",
+    photoFolders: ["album_henry_last_chance_saloon"],
+    tags: ["album", "last-chance-saloon"],
+    aspect: "6x4",
+    altText: "Henry — Last Chance Saloon",
+    description: [""],
+  },
+  {
+    name: "blackfoot-crossing-bnw",
+    photoFolders: ["blackfoot crossing bnw.CR2"],
+    tags: ["album", "blackfoot-crossing"],
+    aspect: "6x4",
+    altText: "Blackfoot Crossing (B&W)",
+    description: [""],
+  },
+  {
+    name: "atlas-coal-mine-split",
+    photoFolders: ["album_atlas_coal_mine_split"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Atlas Coal Mine (split)",
+    description: [""],
+  },
+  {
+    name: "downtown-drum",
+    photoFolders: ["album_downtown_drum"],
+    tags: ["album", "downtown-drumheller"],
+    aspect: "6x4",
+    altText: "Downtown Drumheller",
+    description: [""],
+  },
+  {
+    name: "lake-louise-with-people-2",
+    photoFolders: ["lake louise w: people 2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (with people)",
+    description: [""],
+  },
+  {
+    name: "atlas-coal-mine",
+    photoFolders: ["album_atlas_coal_mine"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Atlas Coal Mine",
+    description: [""],
+  },
+  {
+    name: "lake-louise-with-people-3",
+    photoFolders: ["lake louise w: people 3"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (with people)",
+    description: [""],
+  },
+  {
+    name: "atlas-coal-mine-downtown-drum-2",
+    photoFolders: ["album_atlas_coal_mine_downtown_drum"],
+    tags: ["album", "atlas-coal-mine", "downtown-drumheller"],
+    aspect: "6x4",
+    altText: "Atlas Coal Mine / Downtown Drumheller",
+    description: [""],
+  },
+  {
+    name: "drum-big-dino",
+    photoFolders: ["drum big dino.CR2"],
+    tags: ["album", "downtown-drumheller"],
+    aspect: "6x4",
+    altText: "Drumheller Big Dino",
+    description: [""],
+  },
+  {
+    name: "lake-louise-with-people",
+    photoFolders: ["lake louise w: people"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (with people)",
+    description: [""],
+  },
+  {
+    name: "atlas-h-way",
+    photoFolders: ["atlas h-way.CR2"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Atlas (highway)",
+    description: [""],
+  },
+  {
+    name: "drum-black-dino",
+    photoFolders: ["drum black dino.CR2"],
+    tags: ["album", "downtown-drumheller"],
+    aspect: "6x4",
+    altText: "Drumheller Black Dino",
+    description: [""],
+  },
+  {
+    name: "lake-louise",
+    photoFolders: ["lake louise"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise",
+    description: [""],
+  },
+  {
+    name: "atlas-truck",
+    photoFolders: ["atlas truck.CR2"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Atlas truck",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-best",
+    photoFolders: ["album_lake_louise_wide_best"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "wildfire-coal",
+    // TODO: add "wildfire coal.CR2" into src/photos then point here
+    photoFolders: ["album_wildfire_coal"],
+    tags: ["album", "atlas-coal-mine"],
+    aspect: "6x4",
+    altText: "Wildfire coal",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide",
+    photoFolders: ["album_lake_louise_wide"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-2",
+    photoFolders: ["album_lake_louise_wide_2"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-3",
+    photoFolders: ["album_lake_louise_wide_3"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-4",
+    photoFolders: ["album_lake_louise_wide_4"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-5",
+    photoFolders: ["album_lake_louise_wide_5"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-6",
+    photoFolders: ["album_lake_louise_wide_6"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-7",
+    photoFolders: ["album_lake_louise_wide_7"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-8",
+    photoFolders: ["album_lake_louise_wide_8"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-9",
+    photoFolders: ["album_lake_louise_wide_9"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+  {
+    name: "lake-louise-wide-10",
+    photoFolders: ["album_lake_louise_wide_10"],
+    tags: ["album", "lake-louise"],
+    aspect: "6x4",
+    altText: "Lake Louise (wide)",
+    description: [""],
+  },
+
+  // ======== Other / Unknown origin ========
+  {
+    name: "unknown-origin-about-holga",
+    photoFolders: ["unknown_origin_about_holga"],
+    tags: ["other", "unknown-origin"],
+    aspect: "6x4",
+    altText: "Unknown origin (about the Holga)",
+    description: [
+      "All unknown origins.\n\n",
+      "These photos were taken on a Holga. The Holga is a plastic “toy camera” known for vignetting, light leaks, soft focus, and unpredictable results.\n\n",
+      "The captions in this section are intentionally brief.",
+    ],
+  },
+];
+
+const canonicalAlbumByFolder = albums.reduce((folderMap, album) => {
+  const folder = album.photoFolders[0];
+  const existingAlbum = folderMap.get(folder);
+  const isFilmAlbum = album.tags.includes("film");
+  const existingIsFilmAlbum = existingAlbum?.tags.includes("film");
+
+  if (!existingAlbum || (existingIsFilmAlbum && !isFilmAlbum)) {
+    folderMap.set(folder, album);
+  }
+
+  return folderMap;
+}, new Map());
+
+albums = albums.map((album) => {
+  const canonicalAlbum = canonicalAlbumByFolder.get(album.photoFolders[0]);
+
+  return {
+    ...album,
+    altText: canonicalAlbum.altText,
+    description: canonicalAlbum.description,
+    caption: canonicalAlbum.caption,
+  };
+});
+
+// add in the sizes field
+let large = window.devicePixelRatio > 1;
+let _600 = large ? "1200" : "600";
+let _900 = large ? "1800" : "900";
+let _1200 = large ? "2400" : "1200";
+let _1536 = large ? "3072" : "1536";
+let baseImg = "./";
+
+function getImagesSizes(folder) {
+  return {
+    600: require(baseImg + folder + "/" + _600 + ".jpg"),
+    900: require(baseImg + folder + "/" + _900 + ".jpg"),
+    1200: require(baseImg + folder + "/" + _1200 + ".jpg"),
+    1536: require(baseImg + folder + "/" + _1536 + ".jpg"),
+  };
+}
+
+function getImagesSizesOriginal(folder) {
+  return {
+    600: require(baseImg + folder + "/600.jpg"),
+    900: require(baseImg + folder + "/900.jpg"),
+    1200: require(baseImg + folder + "/1200.jpg"),
+    1536: require(baseImg + folder + "/1536.jpg"),
+  };
+}
+
+const createPhotoAlbum = function (input) {
+  let album = Object.assign({}, input);
+  album.id = album.id || album.photoFolders[0];
+  album.title = album.title || album.altText + " | " + config.title.main;
+  album.photoFolders.forEach((folderName) => {
+    album.photos = album.photos || [];
+    album.photosNormalSize = album.photosNormalSize || [];
+    try {
+      album.photos.push(getImagesSizes(folderName));
+      album.photosNormalSize.push(getImagesSizesOriginal(folderName));
+    } catch (err) {
+      console.dir(err);
+    }
+  });
+  return album;
+};
+
+console.log(`number of photos: ${albums.length}`);
+
+albums = albums.map((album) => createPhotoAlbum(album));
+
+/////////////////////////////////////////// Exports
+
+export { createPhotoAlbum };
+
+export function getPhotoAlbumByName(name) {
+  return albums.find((album) => {
+    return album.name === name;
+  });
+}
+
+// see app.php
+console.log("albums");
+let _albums = albums.map((item) => {
+  if (!item.photos[0]) {
+    console.error("Photo missing:");
+    console.dir(item);
+    console.log(
+      `If you are looking at this from github, I've not included some of the images because it was making the repo too large.`
+    );
+  }
+
+  return {
+    name: item.name,
+    des: Array.isArray(item.description)
+      ? item.description.join("")
+      : item.description || "A really cool photo",
+    title: item.altText,
+    photo: item.photos[0] ? item.photos[0]["600"] : "",
+  };
+});
+console.dir(_albums);
+console.log(JSON.stringify(_albums).replace(/'/g, "\\'"));
+
+export default albums;
