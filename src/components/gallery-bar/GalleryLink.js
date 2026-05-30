@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import { alpha } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Haunted } from 'react-halloween';
 import { useNavigate } from 'react-router-dom';

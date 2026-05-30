@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { Box } from '@mui/system';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useContentSize } from '../hooks/useContentSize';
 

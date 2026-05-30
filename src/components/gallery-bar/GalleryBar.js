@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Eyes } from 'react-halloween';
 import { useLocation } from 'react-router-dom';
 import { GalleryLink } from './GalleryLink';
