@@ -1,10 +1,10 @@
+import { Box } from "@mui/material";
 import React from "react";
 import { getPhotoAlbumByName } from "../../../photos";
 import MainIntro from "../../blurbs/MainIntro";
 import { ContentFlowGrid } from "../../ContentFlowGrid";
 import Footer from "../../Footer";
 import PhotoViewer from "../../PhotoViewer";
-import { Box } from "@mui/material";
 
 const MainStandard = () => {
   return (

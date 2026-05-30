@@ -3,9 +3,9 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 import translationEn from './translation.en.json';
+import translationEs from './translation.es.json';
 import translationIt from './translation.it.json';
 import translationRu from './translation.ru.json';
-import translationEs from './translation.es.json';
 
 const languages = ['en', 'it', 'ru', 'es']; // (*)
 

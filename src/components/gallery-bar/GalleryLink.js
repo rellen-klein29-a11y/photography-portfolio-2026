@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import React, { useState } from 'react';
@@ -106,6 +107,13 @@ const GalleryLink = ({ gallery, galleryName, glowOptions = {}, imgSrc }) => {
       </Box>
     </Box>
   );
+};
+
+GalleryLink.propTypes = {
+  gallery: PropTypes.string.isRequired,
+  galleryName: PropTypes.string.isRequired,
+  glowOptions: PropTypes.object,
+  imgSrc: PropTypes.string.isRequired,
 };
 
 export { GalleryLink };

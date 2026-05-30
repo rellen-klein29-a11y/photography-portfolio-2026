@@ -15,13 +15,6 @@ const GalleryBar = () => {
   const theme = useTheme();
   const { pathname } = useLocation();
   const [eyesOpen, setEyesOpen] = useState(false);
-  const defaultGlowOptions = useMemo(
-    () => ({
-      boxShadowOff: `0px 0px 0px ${alpha(theme.palette.primary.main, 0)}`,
-      boxShadowOn: `0px 0px 40px ${alpha(theme.palette.primary.main, 1)}`,
-    }),
-    [theme.palette.primary.main]
-  );
 
   const getGlowOptions = (galleryName) => {
     const colorMap = {
