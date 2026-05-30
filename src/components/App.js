@@ -18,10 +18,10 @@ import { MainStandard } from './galleries/main/MainStandard';
 import NavBar from './NavBar.js';
 import SinglePhoto from './SinglePhoto';
 import config from '../app.config.js';
-import photos from '../photos';
-import { galleries } from '../photos/galleries';
 import { DefaultTheme, HalloweenTheme, themes } from '../themes';
 import { useDesktop } from '../hooks/useDesktop';
+import photos from '../photos';
+import { galleries } from '../photos/galleries';
 import '../i18n';
 
 ReactGA.initialize(config.googleAnalyticsId);

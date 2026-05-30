@@ -1,4 +1,4 @@
-import { Box, Link } from '@mui/material';
+import { Box } from '@mui/material';
 import React from 'react';
 import { getPhotoAlbumByName } from '../../photos';
 import ClosingMessage from '../ClosingMessage';

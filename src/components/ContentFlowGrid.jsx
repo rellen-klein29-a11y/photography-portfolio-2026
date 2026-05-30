@@ -1,5 +1,6 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { Box } from '@mui/system';
+import React from 'react';
 import { useContentSize } from '../hooks/useContentSize';
 
 const ContentFlowGrid = ({ children }) => {
@@ -17,6 +18,10 @@ const ContentFlowGrid = ({ children }) => {
       {children}
     </Box>
   );
+};
+
+ContentFlowGrid.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export { ContentFlowGrid };

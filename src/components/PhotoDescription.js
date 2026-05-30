@@ -105,6 +105,7 @@ function PhotoDescription(props) {
 PhotoDescription.propTypes = {
   album: PropTypes.object,
   activeStep: PropTypes.number,
+  slim: PropTypes.bool,
 };
 
 export default PhotoDescription;
