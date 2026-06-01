@@ -485,6 +485,7 @@ let albums = [
       type: "toggle",
       imageStart: 0,
     },
+    altText: "Lake Louise — Then and Now",
     description: [
       "Lake Louise (environmental sustainability)",
       "The older image of Lake Louise was taken around 1880 by Alberta photography duo Boorne and May.",
@@ -501,7 +502,6 @@ let albums = [
       "- 52% of the hotel's energy comes from renewable sources.",
       "- They purify water from Lake Louise using an on site water treatment plant.",
       "- Leftover soap and hygiene products are donated to Clean the World.",
-    ],
     ],
   },
   {
