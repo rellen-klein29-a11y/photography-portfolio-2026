@@ -492,7 +492,7 @@ let albums = [
       "History:",
       "Lake Louise was well known to the Indigenous people in the area before the Canadian Pacific Railway survey crews came in the late 1880s.",
       "The first non-Indigenous person to visit the area was Thomas Edmonds Wilson, led by Indigenous tour guide Edwin hunter in 1882.",
-      "Wilson (although having no authority to do so) named the lake "Emerald Lake" after it's color. It was later renamed to Lake Louise after Princess Louise Caroline Alberta (the province was named after her as well).",
+      "Wilson (although having no authority to do so) named the lake \"Emerald Lake\" after it's color. It was later renamed to Lake Louise after Princess Louise Caroline Alberta (the province was named after her as well).",
       "In the summer when the ice and snow clears, the water turns into a turquoise color that comes from rock flour carried into the lake by the melting of nearby glaciers.",
       "Chateau lake Louise (it's earliest version pictured above) is located on lake louise's eastern shore.",
       "Contribution to sustainability:",
@@ -554,7 +554,7 @@ let albums = [
     altText: "Unknown origin (about the Holga)",
     description: [
       "All unknown origins.",
-      "These photos were taken on a Holga. The Holga is a plastic "toy camera" known for vignetting, light leaks, soft focus, and unpredictable results.",
+      "These photos were taken on a Holga. The Holga is a plastic \"toy camera\" known for vignetting, light leaks, soft focus, and unpredictable results.",
       "The captions in this section are intentionally brief.",
     ],
   },
