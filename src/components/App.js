@@ -30,7 +30,7 @@ function getPageInfo(location) {
   if (!location) {
     location = window.location;
   }
-  let title = 'Patrick Gillespie Photography';
+  let title = 'Roscoe Ellen-Klein Photography';
   let description = 'Some cool photos of stuff.';
   let name, elm;
 
